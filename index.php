@@ -108,20 +108,17 @@
                 show: false
               }
             }
-          );Log
+          );
           });
           $.getJSON("core/shell.php?module=cpu",function(data){
-            $.plot($("#cpu_graph"),[
-              {label: "cpu0", data: [[0,data.cpu.core.cpu0]]},
-              {label: "cpu1", data: [[1,data.cpu.core.cpu1]]},
-              {label: "cpu2", data: [[2,data.cpu.core.cpu2]]},
-              {label: "cpu3", data: [[3,data.cpu.core.cpu3]]},
-              {label: "cpu4", data: [[4,data.cpu.core.cpu4]]},
-              {label: "cpu5", data: [[5,data.cpu.core.cpu5]]},
-              {label: "cpu6", data: [[6,data.cpu.core.cpu6]]},
-              {label: "cpu7", data: [[7,data.cpu.core.cpu7]]},
-              {label: "total", data: [[8,data.cpu.total]]}
-            ],
+            var cpuData = [];
+            var count = 0;
+            $.each(data.cpu.core,function(key, value){
+              cpuData.push({label: key, data: [[count,value]]});
+              count = count + 1;
+            });
+            cpuData.push({label: "total", data: [[count,data.cpu.total]]});
+            $.plot($("#cpu_graph"),cpuData,
             {
               bars: {
                 show: true,
